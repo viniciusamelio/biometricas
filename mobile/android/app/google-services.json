@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1025333245515",
+    "project_id": "biometricas-70112",
+    "storage_bucket": "biometricas-70112.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1025333245515:android:2b6425b84fb72f31da7fce",
+        "android_client_info": {
+          "package_name": "com.pixelcoders.biometricas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1025333245515-ouu7babl6htbbbflnggq7e60gdn10g98.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoKpmzNpnsgHe4ORnbKZrZNHzJLRrKjxk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1025333245515-ouu7babl6htbbbflnggq7e60gdn10g98.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
