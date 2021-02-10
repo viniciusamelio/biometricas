@@ -70,7 +70,7 @@ class _PicturePageState extends State<PicturePage> {
                     CustomButton(
                         label: "Tirar outra",
                         icon: Icon(Icons.camera, color: Colors.white),
-                        onPressed: () {}),
+                        onPressed: _cameraController.getImage),
                   ],
                 ),
               );
@@ -83,7 +83,10 @@ class _PicturePageState extends State<PicturePage> {
                       style:
                           TextStyle(fontSize: 19, fontWeight: FontWeight.w600)),
                   const SizedBox(height: 30),
-                  Image.file(_cameraController.picture.value),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Image.file(_cameraController.picture.value),
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -97,7 +100,7 @@ class _PicturePageState extends State<PicturePage> {
                   ),
                   Align(
                     alignment: Alignment.centerRight,
-                    child: Text("Nenhum rosto reconhecido.",
+                    child: Text(_cameraController.error.value,
                         style: TextStyle(
                             color: Colors.grey[300].withOpacity(0.7))),
                   ),

@@ -2,9 +2,23 @@ import 'dart:ui';
 
 import 'package:biometricas/components/button.dart';
 import 'package:biometricas/modules/camera/pages/picturePage.dart';
+import 'package:biometricas/modules/home/controllers/homeController.dart';
 import 'package:flutter/material.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  HomeController _homeController;
+
+  @override
+  void initState() {
+    _homeController = HomeController();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,11 +43,14 @@ class HomePage extends StatelessWidget {
                 const SizedBox(height: 40),
                 CustomButton(
                     label: "Detecção Facial",
-                    onPressed: () {
-                      Navigator.of(context)
-                          .push(MaterialPageRoute(builder: (context) {
-                        return PicturePage();
-                      }));
+                    onPressed: () async {
+                      await _homeController.checkCameraPermission();
+                      if (_homeController.cameraAccessGranted.value) {
+                        return Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (context) {
+                          return PicturePage();
+                        }));
+                      }
                     })
               ],
             ),

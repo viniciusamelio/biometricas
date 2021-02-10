@@ -7,5 +7,5 @@
 
 #### App
 - Gerência de estado simples com RXNotifier, utilizando um padrão similar as Stores do MobX
-- UI desenvolvida também por mim. Cópia do arquivo .xd em /mobile/assets/
+- UI desenvolvida também por mim. Cópia do arquivo .xd em /mobile/
 - Para rodar basta executar flutter run no diretório /mobile

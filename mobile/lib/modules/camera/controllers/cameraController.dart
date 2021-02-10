@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
-import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
@@ -10,9 +9,10 @@ class CameraController {
 
   FaceDetector faceDetector;
 
-  ValueNotifier<bool> loaded = RxNotifier(false);
-  ValueNotifier<File> picture = RxNotifier(null);
-  ValueNotifier<bool> foundFace = RxNotifier(false);
+  RxNotifier<bool> loaded = RxNotifier(false);
+  RxNotifier<File> picture = RxNotifier(null);
+  RxNotifier<bool> foundFace = RxNotifier(false);
+  RxNotifier<String> error = RxNotifier("");
 
   initDetector() {
     faceDetector = FirebaseVision.instance.faceDetector(FaceDetectorOptions(
@@ -40,6 +40,7 @@ class CameraController {
 
   _detectFaces(List<Face> faces) async {
     if (faces.length == 0) {
+      error.value = "Nenhum rosto reconhecido.";
       return false;
     }
     for (Face face in faces) {
@@ -57,6 +58,7 @@ class CameraController {
           rightYear != null) {
         return true;
       }
+      error.value = "Centralize seu rosto na foto.";
       return false;
     }
   }
