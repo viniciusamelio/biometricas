@@ -34,16 +34,28 @@ class _PicturePageState extends State<PicturePage> {
     return Scaffold(
       backgroundColor: Color.fromRGBO(22, 22, 22, 1),
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(15),
-          child: RxBuilder(builder: (_) {
-            final foundFace = _cameraController.foundFace.value;
-            if (_cameraController.picture.value == null) {
-              return Container();
-            }
-            if (foundFace) {
-              return Center(
-                child: Column(
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(15),
+            child: RxBuilder(builder: (_) {
+              final foundFace = _cameraController.foundFace.value;
+              if (_cameraController.loading.value) {
+                return Column(
+                  children: [
+                    CircularProgressIndicator(),
+                    const SizedBox(height: 20),
+                    Text("Carregando...")
+                  ],
+                );
+              }
+              if (_cameraController.picture.value == null) {
+                return CustomButton(
+                  label: "Detectar Face",
+                  onPressed: _cameraController.getImage,
+                );
+              }
+              if (foundFace) {
+                return Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text("Como ficou a foto?",
@@ -72,11 +84,9 @@ class _PicturePageState extends State<PicturePage> {
                         icon: Icon(Icons.camera, color: Colors.white),
                         onPressed: _cameraController.getImage),
                   ],
-                ),
-              );
-            }
-            return Center(
-              child: Column(
+                );
+              }
+              return Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text("Como ficou a foto?",
@@ -110,9 +120,9 @@ class _PicturePageState extends State<PicturePage> {
                       icon: Icon(Icons.camera, color: Colors.white),
                       onPressed: _cameraController.getImage),
                 ],
-              ),
-            );
-          }),
+              );
+            }),
+          ),
         ),
       ),
     );

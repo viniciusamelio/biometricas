@@ -9,7 +9,7 @@ class CameraController {
 
   FaceDetector faceDetector;
 
-  RxNotifier<bool> loaded = RxNotifier(false);
+  RxNotifier<bool> loading = RxNotifier(false);
   RxNotifier<File> picture = RxNotifier(null);
   RxNotifier<bool> foundFace = RxNotifier(false);
   RxNotifier<String> error = RxNotifier("");
@@ -23,11 +23,13 @@ class CameraController {
 
   getImage() async {
     //initDetector();
+    loading.value = true;
     final pickedFile = await _picker.getImage(source: ImageSource.camera);
     if (pickedFile != null) {
       picture.value = File(pickedFile.path);
-      _processImage();
+      await _processImage();
     }
+    loading.value = false;
   }
 
   _processImage() async {
