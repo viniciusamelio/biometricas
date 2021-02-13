@@ -4,7 +4,7 @@
     "private": true,
     "scripts": {
       "heroku-prebuild": "cd backend/build",
-      "start": "node server.js",
+      "start": "ENV_SILENT=true node build/server.js",
       "dev": "node ace serve --watch",
       "lint": "eslint . --ext=.ts",
       "format": "prettier --write ."
