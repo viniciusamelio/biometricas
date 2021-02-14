@@ -11,9 +11,9 @@
     <uses-feature android:name="android.hardware.camera"/>
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="biometricas"
+        android:label="Biométricas"
         android:requestLegacyExternalStorage="true"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"            
             android:launchMode="singleTop"
