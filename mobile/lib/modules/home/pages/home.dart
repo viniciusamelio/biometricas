@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
         decoration: BoxDecoration(
             color: Color.fromRGBO(22, 22, 22, 1),
             image: DecorationImage(
-                fit: BoxFit.none,
+                fit: BoxFit.cover,
                 image: AssetImage('assets/background.png'),
                 alignment: Alignment.bottomCenter)),
         child: SafeArea(
@@ -40,9 +40,9 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Image.asset(
                   "assets/logo.png",
-                  scale: 0.9,
+                  height: 50,
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 20),
                 CustomButton(
                     label: "Detecção Facial",
                     onPressed: () async {
@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage> {
                   child: Text("Ver resultados",
                       style: TextStyle(
                           color: blue,
-                          fontSize: 17,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold)),
                 )
               ],
