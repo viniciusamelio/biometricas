@@ -38,6 +38,11 @@ class _PicturePageState extends State<PicturePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: backgroundColor,
+        elevation: 0,
+        iconTheme: IconThemeData(color: blue, size: 35),
+      ),
       backgroundColor: Color.fromRGBO(22, 22, 22, 1),
       body: SafeArea(
         child: Center(
@@ -71,19 +76,26 @@ class _PicturePageState extends State<PicturePage> {
                     const SizedBox(height: 30),
                     ClipRRect(
                       borderRadius: BorderRadius.circular(8),
-                      child: Image.file(_cameraController.picture.value),
+                      child: Image.file(
+                        _cameraController.picture.value,
+                        width: MediaQuery.of(context).size.width * 0.7,
+                      ),
                     ),
                     const SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          "Análise inicial:",
-                          style: TextStyle(color: Colors.grey[200]),
-                        ),
-                        Icon(Icons.check_circle,
-                            size: 30, color: Color.fromRGBO(20, 252, 159, 1))
-                      ],
+                    Padding(
+                      padding: EdgeInsets.only(
+                          right: MediaQuery.of(context).size.width * 0.14),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            "Análise inicial:",
+                            style: TextStyle(color: Colors.grey[200]),
+                          ),
+                          Icon(Icons.check_circle,
+                              size: 30, color: Color.fromRGBO(20, 252, 159, 1))
+                        ],
+                      ),
                     ),
                     const SizedBox(height: 20),
                     CustomButton(
@@ -138,25 +150,33 @@ class _PicturePageState extends State<PicturePage> {
                           TextStyle(fontSize: 19, fontWeight: FontWeight.w600)),
                   const SizedBox(height: 30),
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: Image.file(_cameraController.picture.value),
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.file(_cameraController.picture.value,
+                          width: MediaQuery.of(context).size.width * 0.7)),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        right: MediaQuery.of(context).size.width * 0.14),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          "Análise inicial:",
+                          style: TextStyle(color: Colors.grey[200]),
+                        ),
+                        Icon(Icons.check_circle,
+                            size: 25, color: Color.fromRGBO(239, 60, 127, 1))
+                      ],
+                    ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        "Análise inicial:",
-                        style: TextStyle(color: Colors.grey[200]),
-                      ),
-                      Icon(Icons.check_circle,
-                          size: 25, color: Color.fromRGBO(239, 60, 127, 1))
-                    ],
-                  ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(_cameraController.error.value,
-                        style: TextStyle(
-                            color: Colors.grey[300].withOpacity(0.7))),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        right: MediaQuery.of(context).size.width * 0.14),
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(_cameraController.error.value,
+                          style: TextStyle(
+                              color: Colors.grey[300].withOpacity(0.7))),
+                    ),
                   ),
                   const SizedBox(height: 50),
                   CustomButton(

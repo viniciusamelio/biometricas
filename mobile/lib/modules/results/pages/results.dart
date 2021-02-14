@@ -25,6 +25,11 @@ class _ResultsPageState extends State<ResultsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: backgroundColor,
+        elevation: 0,
+        iconTheme: IconThemeData(color: blue, size: 35),
+      ),
       backgroundColor: backgroundColor,
       body: SafeArea(
         child: Padding(

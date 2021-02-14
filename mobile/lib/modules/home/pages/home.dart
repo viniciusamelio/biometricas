@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage> {
                   child: Text("Ver resultados",
                       style: TextStyle(
                           color: blue,
-                          fontSize: 18,
+                          fontSize: 20,
                           fontWeight: FontWeight.bold)),
                 )
               ],

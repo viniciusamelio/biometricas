@@ -1,9 +1,11 @@
 import 'package:biometricas/modules/home/pages/home.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 void main() {
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
   runApp(MyApp());
 }
 
