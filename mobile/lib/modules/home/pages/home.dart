@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:biometricas/components/button.dart';
+import 'package:biometricas/shared/components/button.dart';
 import 'package:biometricas/modules/camera/pages/picturePage.dart';
 import 'package:biometricas/modules/home/controllers/homeController.dart';
 import 'package:flutter/material.dart';

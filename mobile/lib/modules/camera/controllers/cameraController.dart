@@ -1,67 +1,60 @@
 import 'dart:io';
 
-import 'package:firebase_ml_vision/firebase_ml_vision.dart';
+import 'package:biometricas/modules/camera/dto/pictureProcessRequestDto.dart';
+import 'package:biometricas/modules/camera/dto/pictureProcessResponseDto.dart';
+import 'package:biometricas/modules/camera/repositories/cameraRepository.dart';
+import 'package:biometricas/modules/camera/services/faceDetector.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
 class CameraController {
   final _picker = ImagePicker();
-
-  FaceDetector faceDetector;
+  final _repository = CameraRepository();
+  final _faceDetectorService = FaceDetectorService();
 
   RxNotifier<bool> loading = RxNotifier(false);
+  RxNotifier<bool> isRequestRunning = RxNotifier(false);
   RxNotifier<File> picture = RxNotifier(null);
   RxNotifier<bool> foundFace = RxNotifier(false);
   RxNotifier<String> error = RxNotifier("");
 
+  double percentage;
+
+  PictureProcessRequestDto _requestDto = PictureProcessRequestDto();
+
   initDetector() {
-    faceDetector = FirebaseVision.instance.faceDetector(FaceDetectorOptions(
-        mode: FaceDetectorMode.accurate,
-        enableLandmarks: true,
-        enableClassification: true));
+    _faceDetectorService.initDetector();
+  }
+
+  closeDetector() {
+    _faceDetectorService.faceDetector.close();
+  }
+
+  _setRequestDto() {
+    _requestDto.file = picture.value;
+    _requestDto.percentage = percentage ?? 99;
   }
 
   getImage() async {
-    //initDetector();
     loading.value = true;
-    final pickedFile = await _picker.getImage(source: ImageSource.camera);
+    final pickedFile = await _picker.getImage(
+        source: ImageSource.camera,
+        imageQuality: 50,
+        maxHeight: 1920,
+        maxWidth: 1080);
     if (pickedFile != null) {
       picture.value = File(pickedFile.path);
-      await _processImage();
+      await _faceDetectorService.processImage(
+          picture.value, foundFace, percentage, error);
     }
     loading.value = false;
   }
 
-  _processImage() async {
-    final FirebaseVisionImage image =
-        FirebaseVisionImage.fromFile(picture.value);
-    final List<Face> faces = await faceDetector.processImage(image);
-    final bool detectedFaces = await _detectFaces(faces);
-    foundFace.value = detectedFaces;
-  }
-
-  _detectFaces(List<Face> faces) async {
-    if (faces.length == 0) {
-      error.value = "Nenhum rosto reconhecido.";
-      return false;
-    }
-    for (Face face in faces) {
-      final FaceLandmark leftEar = face.getLandmark(FaceLandmarkType.leftEar);
-      final FaceLandmark rightYear =
-          face.getLandmark(FaceLandmarkType.rightEar);
-      final FaceLandmark mouth = face.getLandmark(FaceLandmarkType.bottomMouth);
-      final FaceLandmark leftEye = face.getLandmark(FaceLandmarkType.leftEye);
-      final FaceLandmark rightEye = face.getLandmark(FaceLandmarkType.rightEye);
-
-      if (leftEar != null &&
-          rightEye != null &&
-          mouth != null &&
-          leftEye != null &&
-          rightYear != null) {
-        return true;
-      }
-      error.value = "Centralize seu rosto na foto.";
-      return false;
-    }
+  Future<PictureProcessResponseDto> submitImage() async {
+    _setRequestDto();
+    isRequestRunning.value = true;
+    final response = await _repository.process(_requestDto);
+    isRequestRunning.value = false;
+    return response;
   }
 }

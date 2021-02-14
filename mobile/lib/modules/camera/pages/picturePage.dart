@@ -1,8 +1,11 @@
-import 'package:biometricas/components/button.dart';
+import 'package:biometricas/shared/components/button.dart';
 import 'package:biometricas/modules/camera/controllers/cameraController.dart';
+import 'package:biometricas/shared/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:rx_notifier/rx_notifier.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 
 class PicturePage extends StatefulWidget {
   @override
@@ -25,7 +28,7 @@ class _PicturePageState extends State<PicturePage> {
 
   @override
   void dispose() {
-    _cameraController.faceDetector.close();
+    _cameraController.closeDetector();
     super.dispose();
   }
 
@@ -39,7 +42,8 @@ class _PicturePageState extends State<PicturePage> {
             padding: const EdgeInsets.all(15),
             child: RxBuilder(builder: (_) {
               final foundFace = _cameraController.foundFace.value;
-              if (_cameraController.loading.value) {
+              if (_cameraController.loading.value ||
+                  _cameraController.isRequestRunning.value) {
                 return Column(
                   children: [
                     CircularProgressIndicator(),
@@ -78,11 +82,37 @@ class _PicturePageState extends State<PicturePage> {
                             size: 30, color: Color.fromRGBO(20, 252, 159, 1))
                       ],
                     ),
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 20),
                     CustomButton(
                         label: "Tirar outra",
                         icon: Icon(Icons.camera, color: Colors.white),
                         onPressed: _cameraController.getImage),
+                    const SizedBox(height: 15),
+                    GestureDetector(
+                      onTap: () async {
+                        final response = await _cameraController.submitImage();
+                        if (response.error != null) {
+                          return showTopSnackBar(
+                            context,
+                            CustomSnackBar.error(
+                              message: response.error.toString() ??
+                                  "Ocorreu um erro",
+                            ),
+                          );
+                        }
+                        return showTopSnackBar(
+                          context,
+                          CustomSnackBar.success(
+                            message: response.message ?? "Enviado com sucesso!",
+                          ),
+                        );
+                      },
+                      child: Text("Gostei, enviar",
+                          style: TextStyle(
+                              fontSize: 17,
+                              color: blue,
+                              fontWeight: FontWeight.bold)),
+                    ),
                   ],
                 );
               }
