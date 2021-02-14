@@ -1,8 +1,10 @@
 import 'dart:ui';
 
+import 'package:biometricas/modules/results/pages/results.dart';
 import 'package:biometricas/shared/components/button.dart';
 import 'package:biometricas/modules/camera/pages/picturePage.dart';
 import 'package:biometricas/modules/home/controllers/homeController.dart';
+import 'package:biometricas/shared/styles.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -51,7 +53,21 @@ class _HomePageState extends State<HomePage> {
                           return PicturePage();
                         }));
                       }
-                    })
+                    }),
+                const SizedBox(height: 20),
+                GestureDetector(
+                  onTap: () {
+                    return Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return ResultsPage();
+                    }));
+                  },
+                  child: Text("Ver resultados",
+                      style: TextStyle(
+                          color: blue,
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold)),
+                )
               ],
             ),
           ),

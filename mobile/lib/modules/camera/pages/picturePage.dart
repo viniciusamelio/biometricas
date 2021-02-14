@@ -1,5 +1,7 @@
+import 'package:biometricas/modules/results/pages/results.dart';
 import 'package:biometricas/shared/components/button.dart';
 import 'package:biometricas/modules/camera/controllers/cameraController.dart';
+import 'package:biometricas/shared/services/storageDetectionsService.dart';
 import 'package:biometricas/shared/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -14,6 +16,7 @@ class PicturePage extends StatefulWidget {
 
 class _PicturePageState extends State<PicturePage> {
   CameraController _cameraController;
+  final _storageDetectionService = StorageDetectionsService();
 
   @override
   void initState() {
@@ -100,12 +103,23 @@ class _PicturePageState extends State<PicturePage> {
                             ),
                           );
                         }
-                        return showTopSnackBar(
-                          context,
-                          CustomSnackBar.success(
-                            message: response.message ?? "Enviado com sucesso!",
-                          ),
-                        );
+                        _storageDetectionService.saveDetection(response);
+
+                        showTopSnackBar(
+                            context,
+                            CustomSnackBar.success(
+                              message: response.message + " !!" ??
+                                  "Enviado com sucesso!",
+                            ),
+                            displayDuration: Duration(seconds: 2));
+                        _cameraController.loading.value = true;
+                        await Future.delayed(Duration(seconds: 2));
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                            '/home', (Route<dynamic> route) => false);
+                        return Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (context) {
+                          return ResultsPage();
+                        }));
                       },
                       child: Text("Gostei, enviar",
                           style: TextStyle(

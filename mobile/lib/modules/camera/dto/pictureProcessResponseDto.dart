@@ -9,10 +9,17 @@ class PictureProcessResponseDto {
     error = error;
   }
 
-  PictureProcessResponseDto.fromJson(Map<String, dynamic> json) {
+  PictureProcessResponseDto.fromJson(Map json) {
     percentage = json['percentage'].toString();
-    approved = json['percentage'] > 90;
     message = json['message'];
     imageUrl = json['path'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final json = Map<String, dynamic>();
+    json['percentage'] = percentage;
+    json['path'] = imageUrl;
+    json['message'] = message;
+    return json;
   }
 }
