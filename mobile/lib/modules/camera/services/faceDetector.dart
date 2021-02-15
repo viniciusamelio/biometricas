@@ -14,17 +14,16 @@ class FaceDetectorService {
   }
 
   processImage(File file, RxNotifier<bool> found, double percentage,
-      RxNotifier<String> errorFeedbackListener) async {
+      RxNotifier<String> feedbackListener) async {
     final FirebaseVisionImage image = FirebaseVisionImage.fromFile(file);
     final List<Face> faces = await faceDetector.processImage(image);
-    final bool detectedFaces = await _detectFaces(faces, errorFeedbackListener);
+    final bool detectedFaces = await _detectFaces(faces, feedbackListener);
     found.value = detectedFaces;
   }
 
-  _detectFaces(
-      List<Face> faces, RxNotifier<String> errorFeedbackListener) async {
+  _detectFaces(List<Face> faces, RxNotifier<String> feedbackListener) async {
     if (faces.length == 0) {
-      errorFeedbackListener.value = "Nenhum rosto reconhecido.";
+      feedbackListener.value = "Nenhum rosto reconhecido.";
       return false;
     }
     for (Face face in faces) {
@@ -40,9 +39,11 @@ class FaceDetectorService {
           mouth != null &&
           leftEye != null &&
           rightYear != null) {
+        feedbackListener.value =
+            faces.length.toString() + " face(s) encontradas!";
         return true;
       }
-      errorFeedbackListener.value = "Centralize seu rosto na foto.";
+      feedbackListener.value = "Centralize seu rosto na foto.";
       return false;
     }
   }

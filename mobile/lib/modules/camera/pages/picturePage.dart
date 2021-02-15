@@ -89,12 +89,22 @@ class _PicturePageState extends State<PicturePage> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(
-                            "Análise inicial:",
+                            "Resultado:",
                             style: TextStyle(color: Colors.grey[200]),
                           ),
                           Icon(Icons.check_circle,
                               size: 30, color: Color.fromRGBO(20, 252, 159, 1))
                         ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          right: MediaQuery.of(context).size.width * 0.14),
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(_cameraController.feedback.value,
+                            style: TextStyle(
+                                color: Colors.grey[300].withOpacity(0.7))),
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -160,7 +170,7 @@ class _PicturePageState extends State<PicturePage> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text(
-                          "Análise inicial:",
+                          "Resultado:",
                           style: TextStyle(color: Colors.grey[200]),
                         ),
                         Icon(Icons.check_circle,
@@ -173,7 +183,7 @@ class _PicturePageState extends State<PicturePage> {
                         right: MediaQuery.of(context).size.width * 0.14),
                     child: Align(
                       alignment: Alignment.centerRight,
-                      child: Text(_cameraController.error.value,
+                      child: Text(_cameraController.feedback.value,
                           style: TextStyle(
                               color: Colors.grey[300].withOpacity(0.7))),
                     ),

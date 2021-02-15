@@ -16,7 +16,7 @@ class CameraController {
   RxNotifier<bool> isRequestRunning = RxNotifier(false);
   RxNotifier<File> picture = RxNotifier(null);
   RxNotifier<bool> foundFace = RxNotifier(false);
-  RxNotifier<String> error = RxNotifier("");
+  RxNotifier<String> feedback = RxNotifier("");
 
   double percentage;
 
@@ -45,7 +45,7 @@ class CameraController {
     if (pickedFile != null) {
       picture.value = File(pickedFile.path);
       await _faceDetectorService.processImage(
-          picture.value, foundFace, percentage, error);
+          picture.value, foundFace, percentage, feedback);
     }
     loading.value = false;
   }
