@@ -173,7 +173,7 @@ class _PicturePageState extends State<PicturePage> {
                           "Resultado:",
                           style: TextStyle(color: Colors.grey[200]),
                         ),
-                        Icon(Icons.check_circle,
+                        Icon(Icons.error_rounded,
                             size: 25, color: Color.fromRGBO(239, 60, 127, 1))
                       ],
                     ),
